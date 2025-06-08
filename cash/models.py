@@ -106,12 +106,13 @@ class Subcategory(models.Model):
     • Наследует бизнес-контекст через FK на Category → Type.
     • Используется для более детального бюджета, аналитики и отчётов.
     """
+
     STATUS: list[tuple[str, str]] = [
         ("Пополнение", "Popolneniye"),
         ("Списание", "Spisaniye"),
     ]
     name = models.CharField("Название подкатегории", max_length=100)
-    type = models.CharField(verbose_name='Тип', choices=STATUS)
+    type = models.CharField(verbose_name="Тип", choices=STATUS)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -150,6 +151,7 @@ class CashFlow(models.Model):
         >>> print(cashflow)
         2025-05-14 | Пополнение | Зарплата | Аванс | 120 000.00 ₽
     """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateField(verbose_name="Дата операции")
     status = models.ForeignKey(Status, on_delete=models.PROTECT, verbose_name="Статус")

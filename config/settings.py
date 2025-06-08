@@ -115,32 +115,4 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
 
 
-# Указывает Django использовать HTTPS при генерации ссылок и перенаправлении
-
-SECURE_SSL_REDIRECT = True
-
-# Указывает Django использовать заголовок HTTP Strict Transport Security (HSTS)
-
-SECURE_HSTS_SECONDS = 31536000  # Год
-
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-
-SECURE_HSTS_PRELOAD = True
-
-# Указывает браузерам отправлять куки только через защищенное HTTPS-соединение
-
-SESSION_COOKIE_SECURE = True
-
-CSRF_COOKIE_SECURE = True
-
-# Указывает Django использовать безопасные куки
-
-SECURE_BROWSER_XSS_FILTER = True
-
-SECURE_CONTENT_TYPE_NOSNIFF = True
-
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-
-

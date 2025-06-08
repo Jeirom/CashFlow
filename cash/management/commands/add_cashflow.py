@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from cash.models import Status, Type, Category, Subcategory
 from django.db import transaction
 
+
 class Command(BaseCommand):
     help = (
         "Инициализирует справочники ДДС: статусы, типы, категории и подкатегории.\n"
@@ -56,8 +57,7 @@ class Command(BaseCommand):
                 for cat_name, subcats in cats.items():
                     # Создаем категорию с FK на тип
                     cat, created_cat = Category.objects.get_or_create(
-                        name=cat_name,
-                        type=typ
+                        name=cat_name, type=typ
                     )
                     verb_cat = "Создана" if created_cat else "Найдена"
                     self.stdout.write(
@@ -69,7 +69,7 @@ class Command(BaseCommand):
                         sub, created_sub = Subcategory.objects.get_or_create(
                             name=sub_name,
                             category=cat,
-                            type=type_name  # Передаем тип как строку
+                            type=type_name,  # Передаем тип как строку
                         )
                         verb_sub = "Создана" if created_sub else "Найдена"
                         self.stdout.write(
@@ -80,4 +80,5 @@ class Command(BaseCommand):
             raise CommandError(f"Ошибка инициализации: {e}")
 
         self.stdout.write(
-            self.style.SUCCESS("Справочники ДДС успешно инициализированы"))
+            self.style.SUCCESS("Справочники ДДС успешно инициализированы")
+        )
