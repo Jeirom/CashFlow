@@ -106,8 +106,12 @@ class Subcategory(models.Model):
     • Наследует бизнес-контекст через FK на Category → Type.
     • Используется для более детального бюджета, аналитики и отчётов.
     """
-
+    STATUS: list[tuple[str, str]] = [
+        ("Пополнение", "Popolneniye"),
+        ("Списание", "Spisaniye"),
+    ]
     name = models.CharField("Название подкатегории", max_length=100)
+    type = models.CharField(verbose_name='Тип', choices=STATUS)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
