@@ -62,6 +62,14 @@ class CashFlowListView(ListView):
 
         return qs
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['statuses'] = Status.objects.all()
+        context['types'] = Type.objects.all()
+        context['categories'] = Category.objects.all()
+        context['subcategories'] = Subcategory.objects.all()
+        return context
+
 
 class CashFlowCreateView(CreateView):
     """Представление для создания новой записи о движении денежных средств"""
@@ -95,7 +103,7 @@ class CashFlowUpdateView(UpdateView):
     model = CashFlow
     form_class = CashFlowForm
     template_name = 'cashflow/cashflow_form.html'
-    success_url = reverse_lazy('list')
+    success_url = reverse_lazy('cashflow:list')
 
     def form_valid(self, form):
         messages.success(self.request, 'Запись успешно обновлена')

@@ -1,15 +1,113 @@
-html
-Copy code
 {% extends 'base.html' %}
 
 {% block title %}Форма транзакции{% endblock %}
 
 {% block content %}
-<h2>{{ view.action }} транзакцию</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Сохранить</button>
-</form>
-<a href="{% url 'cashflow:list' %}">Отмена</a>
+<h2 style="text-align: center; margin-bottom: 20px;">{{ view.action }} транзакцию</h2>
+
+<div class="form-container">
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Сохранить</button>
+            <a href="{% url 'cashflow:list' %}" class="btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+
+<!-- Внутренние стили -->
+<style>
+/* Общий контейнер формы */
+.form-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Стиль самой формы */
+.styled-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Стили для каждого поля */
+.styled-form p {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.styled-form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* Вводы и textarea */
+.styled-form input[type="text"],
+.styled-form input[type="number"],
+.styled-form input[type="date"],
+.styled-form select,
+.styled-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.styled-form input[type="text"]:focus,
+.styled-form input[type="number"]:focus,
+.styled-form input[type="date"]:focus,
+.styled-form select:focus,
+.styled-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Уменьшение размера блока с комментарием */
+.styled-form textarea[name="comment"] {
+    height: 60px; /* уменьшено по высоте */
+    resize: vertical;
+}
+
+/* Кнопки */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+.btn-primary:hover {
+    background-color: #0069d9;
+}
+
+.btn-secondary {
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+</style>
 {% endblock %}

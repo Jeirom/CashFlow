@@ -4,8 +4,8 @@
 
 {% block content %}
 <h2>Вы уверены, что хотите удалить эту транзакцию?</h2>
-<p><strong>ID:</strong> {{ object.id }}</p>
-<p><strong>Описание:</strong> {{ object.description }}</p>
+<p><strong>Название::</strong> {{ object.category }}</p>
+<p><strong>На сумму:</strong> {{ object.amount }}</p>
 <form method="post">
     {% csrf_token %}
     <button type="submit">Да, удалить</button>
