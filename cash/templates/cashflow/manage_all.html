@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Управление справочниками</h1>
+
+<!-- Таблицы со списками -->
+<h2>Статусы</h2>
+<table>
+    <tr><th>Название</th><th>Действия</th></tr>
+    {% for item in statuses %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>
+            <a href="?action=edit&model=status&id={{ item.id }}">Редактировать</a>
+            <a href="?action=delete&model=status&id={{ item.id }}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Типы</h2>
+<table>
+    {% for item in types %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>
+            <a href="?action=edit&model=type&id={{ item.id }}">Редактировать</a>
+            <a href="?action=delete&model=type&id={{ item.id }}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Категории</h2>
+<table>
+    {% for item in categories %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.type.name }}</td>
+        <td>
+            <a href="?action=edit&model=category&id={{ item.id }}">Редактировать</a>
+            <a href="?action=delete&model=category&id={{ item.id }}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Подкатегории</h2>
+<table>
+    {% for item in subcategories %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.category.name }}</td>
+        <td>{{ item.type }}</td>
+        <td>
+            <a href="?action=edit&model=subcategory&id={{ item.id }}">Редактировать</a>
+            <a href="?action=delete&model=subcategory&id={{ item.id }}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Форма добавления / редактирования -->
+{% if form %}
+<h3>{{ edit_obj|default:"Добавление" }}</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+</form>
+{% endif %}
+
+{% endblock %}

@@ -3,8 +3,9 @@
 {% block title %}Детали транзакции{% endblock %}
 
 {% block content %}
-<h2>Детали транзакции</h2>
-<ul>
+        {% csrf_token %}
+    <h2>Детали транзакции</h2>
+    <ul>
     <li><strong>ID:</strong> {{ object.id }}</li>
     <li><strong>Пользователь:</strong> {{ object.user.email }}</li>
     <li><strong>Дата операции:</strong> {{ object.date_created }}</li>

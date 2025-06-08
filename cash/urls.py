@@ -4,7 +4,7 @@ from .views import (
     CashFlowDetailView,
     CashFlowCreateView,
     CashFlowUpdateView,
-    CashFlowDeleteView,
+    CashFlowDeleteView, manage_all,
 )
 
 app_name = 'cashflow'
@@ -15,4 +15,5 @@ urlpatterns = [
     path('add/', CashFlowCreateView.as_view(), name='add'),
     path('<int:pk>/edit/', CashFlowUpdateView.as_view(), name='edit'),
     path('<int:pk>/delete/', CashFlowDeleteView.as_view(), name='delete'),
+    path('manage/', manage_all, name='manage'),
 ]

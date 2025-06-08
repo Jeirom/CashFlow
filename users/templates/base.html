@@ -132,11 +132,19 @@
 <!-- Шапка -->
 <nav class="navbar fixed-top bg-transparent border-bottom border-2 border-dark" style="backdrop-filter: blur(10px);">
   <div class="container-fluid d-flex justify-content-between align-items-center px-5" style="max-width: 1200px;">
+
     <!-- Название сайта -->
     <a class="navbar-brand text-uppercase fw-bold fs-4 text-dark" href="/" style="letter-spacing: 2px;">
       ДиДиСи
     </a>
-
+        <!-- Левая часть: кнопка для суперпользователя -->
+    <div class="d-flex align-items-center gap-3">
+      {% if user.is_superuser %}
+        <a href="{% url 'cashflow:manage' %}" class="btn btn-warning fw-semibold px-4 py-2" style="border-radius: 30px; font-size: 1rem;">
+          Редактировать справочник
+        </a>
+      {% endif %}
+    </div>
     <!-- Правый блок: меню или кнопки -->
     <div class="d-flex align-items-center gap-3">
       <!-- Если пользователь не авторизован -->
@@ -168,6 +176,7 @@
     </div>
   </div>
 </nav>
+
 
 <!-- Основной контент -->
 <main class="container mt-4">

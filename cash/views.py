@@ -1,9 +1,10 @@
 import json
 
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import CashFlow, Category, Type, Status, Subcategory
-from .forms import CashFlowForm
+from .forms import CashFlowForm, StatusForm, TypeForm, CategoryForm, SubcategoryForm
 from django.contrib import messages
 from django.utils import timezone
 
@@ -266,3 +267,89 @@ class SubcategoryDeleteView(DeleteView):
     model = Subcategory
     template_name = 'subcategory_confirm_delete.html'
     success_url = reverse_lazy('subcategory_list')
+
+
+
+def manage_all(request):
+    # Получаем все записи
+    statuses = Status.objects.all()
+    types = Type.objects.all()
+    categories = Category.objects.all()
+    subcategories = Subcategory.objects.all()
+
+    # Инициализация переменных
+    action = request.GET.get('action')
+    model_name = request.GET.get('model')
+    obj_id = request.GET.get('id')
+
+    # Обработка добавления
+    if request.method == 'POST':
+        if model_name == 'status':
+            form = StatusForm(request.POST)
+        elif model_name == 'type':
+            form = TypeForm(request.POST)
+        elif model_name == 'category':
+            form = CategoryForm(request.POST)
+        elif model_name == 'subcategory':
+            form = SubcategoryForm(request.POST)
+        else:
+            form = None
+
+        if form and form.is_valid():
+            form.save()
+            return redirect('manage_all')
+
+    # Обработка редактирования
+    if action == 'edit' and obj_id:
+        if model_name == 'status':
+            instance = get_object_or_404(Status, pk=obj_id)
+            form_class = StatusForm
+        elif model_name == 'type':
+            instance = get_object_or_404(Type, pk=obj_id)
+            form_class = TypeForm
+        elif model_name == 'category':
+            instance = get_object_or_404(Category, pk=obj_id)
+            form_class = CategoryForm
+        elif model_name == 'subcategory':
+            instance = get_object_or_404(Subcategory, pk=obj_id)
+            form_class = SubcategoryForm
+        else:
+            instance = None
+            form_class = None
+
+        if request.method == 'POST' and instance:
+            form = form_class(request.POST, instance=instance)
+            if form.is_valid():
+                form.save()
+                return redirect('manage_all')
+        else:
+            form = form_class(instance=instance)
+
+    # Обработка удаления
+    if action == 'delete' and obj_id:
+        if model_name == 'status':
+            obj = get_object_or_404(Status, pk=obj_id)
+        elif model_name == 'type':
+            obj = get_object_or_404(Type, pk=obj_id)
+        elif model_name == 'category':
+            obj = get_object_or_404(Category, pk=obj_id)
+        elif model_name == 'subcategory':
+            obj = get_object_or_404(Subcategory, pk=obj_id)
+        else:
+            obj = None
+
+        if request.method == 'POST' and obj:
+            obj.delete()
+            return redirect('manage_all')
+
+    context = {
+        'statuses': statuses,
+        'types': types,
+        'categories': categories,
+        'subcategories': subcategories,
+        'current_action': action,
+        'current_model': model_name,
+        'form': form if 'form' in locals() else None,
+        'edit_obj': obj if 'obj' in locals() else None,
+    }
+    return render(request, 'manage_all.html', context)
