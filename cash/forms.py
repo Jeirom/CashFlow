@@ -6,7 +6,7 @@ class CashFlowForm(forms.ModelForm):
         model = CashFlow
         fields = ['date_created', 'status', 'type', 'category', 'subcategory', 'amount', 'comment']
         widgets = {
-            'date_created': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'date_created': forms.DateInput(attrs={'type': 'date'}),
         }
 
     def clean(self):

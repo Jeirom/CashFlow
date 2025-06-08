@@ -68,7 +68,7 @@ class CashFlowCreateView(CreateView):
     model = CashFlow
     form_class = CashFlowForm
     template_name = 'cashflow/cashflow_form.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('cashflow:list')
 
     def get_initial(self):
         initial = super().get_initial()
@@ -76,6 +76,10 @@ class CashFlowCreateView(CreateView):
         return initial
 
     def form_valid(self, form):
+        # Перед сохранением присваиваем текущего пользователя
+        cashflow = form.save(commit=False)
+        cashflow.user = self.request.user
+        cashflow.save()
         messages.success(self.request, 'Запись успешно создана')
         return super().form_valid(form)
 
@@ -86,13 +90,12 @@ class CashFlowCreateView(CreateView):
         context['today'] = timezone.now().date()
         return context
 
-
 class CashFlowUpdateView(UpdateView):
     """Представление для редактирования записи о движении денежных средств"""
     model = CashFlow
     form_class = CashFlowForm
     template_name = 'cashflow/cashflow_form.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('list')
 
     def form_valid(self, form):
         messages.success(self.request, 'Запись успешно обновлена')
@@ -103,7 +106,7 @@ class CashFlowDeleteView(DeleteView):
     """Представление для удаления записи о движении денежных средств"""
     model = CashFlow
     template_name = 'cashflow/cashflow_confirm_delete.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('cashflow:list')
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Запись успешно удалена')
@@ -114,7 +117,7 @@ class CashFlowDetailView(DetailView):
     """Представление для удаления записи о движении денежных средств"""
     model = CashFlow
     template_name = 'cashflow/cashflow_detail.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('/list/')
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Запись успешно удалена')

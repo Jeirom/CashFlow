@@ -20,9 +20,9 @@
         <td>{{ item.amount }}</td>
         <td>{{ item.date }}</td>
         <td>
-            <a href="{% url 'detail' item.id %}">Подробнее</a> |
-            <a href="{% url 'edit' item.id %}">Редактировать</a> |
-            <a href="{% url 'delete' item.id %}">Удалить</a>
+            <a href="{% url 'cashflow:detail' item.id %}">Подробнее</a> |
+            <a href="{% url 'cashflow:edit' item.id %}">Редактировать</a> |
+            <a href="{% url 'cashflow:delete' item.id %}">Удалить</a>
         </td>
     </tr>
     {% endfor %}

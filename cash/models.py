@@ -1,9 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
-
-from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
@@ -163,7 +158,7 @@ class CashFlow(models.Model):
     )
     amount = models.DecimalField(
         "Сумма (₽)",
-        max_digits=10,
+        max_digits=1000,
         decimal_places=2,
         validators=[MinValueValidator(0.01)],
     )
