@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Список CashFlow{% endblock %}
+
+{% block content %}
+<h2>Список транзакций</h2>
+<a href="{% url 'cashflow:add' %}">Добавить новую транзакцию</a>
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr>
+        <th>ID</th>
+        <th>Описание</th>
+        <th>Сумма</th>
+        <th>Дата</th>
+        <th>Действия</th>
+    </tr>
+    {% for item in object_list %}
+    <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.amount }}</td>
+        <td>{{ item.date }}</td>
+        <td>
+            <a href="{% url 'detail' item.id %}">Подробнее</a> |
+            <a href="{% url 'edit' item.id %}">Редактировать</a> |
+            <a href="{% url 'delete' item.id %}">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

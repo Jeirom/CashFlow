@@ -1,0 +1,15 @@
+html
+Copy code
+{% extends 'base.html' %}
+
+{% block title %}Форма транзакции{% endblock %}
+
+{% block content %}
+<h2>{{ view.action }} транзакцию</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+</form>
+<a href="{% url 'cashflow:list' %}">Отмена</a>
+{% endblock %}

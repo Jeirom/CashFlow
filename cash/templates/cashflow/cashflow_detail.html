@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Детали транзакции{% endblock %}
+
+{% block content %}
+<h2>Детали транзакции</h2>
+<ul>
+    <li><strong>ID:</strong> {{ object.id }}</li>
+    <li><strong>Описание:</strong> {{ object.description }}</li>
+    <li><strong>Сумма:</strong> {{ object.amount }}</li>
+    <li><strong>Дата:</strong> {{ object.date }}</li>
+</ul>
+<a href="{% url 'cashflow_list' %}">Назад к списку</a>
+{% endblock %}
