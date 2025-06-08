@@ -1,18 +1,18 @@
 from django.urls import path
-from cash.views import (
-    CashFlowRecordListView,
-    CashFlowRecordDetailView,
-    CashFlowRecordCreateView,
-    CashFlowRecordUpdateView,
-    CashFlowRecordDeleteView,
+from .views import (
+    CashFlowListView,
+    CashFlowDetailView,
+    CashFlowCreateView,
+    CashFlowUpdateView,
+    CashFlowDeleteView,
 )
 
 app_name = 'cashflow'
 
 urlpatterns = [
-    path('', CashFlowRecordListView.as_view(), name='list'),
-    path('<int:pk>/', CashFlowRecordDetailView.as_view(), name='detail'),
-    path('add/', CashFlowRecordCreateView.as_view(), name='add'),
-    path('<int:pk>/edit/', CashFlowRecordUpdateView.as_view(), name='edit'),
-    path('<int:pk>/delete/', CashFlowRecordDeleteView.as_view(), name='delete'),
+    path('', CashFlowListView.as_view(), name='list'),
+    path('<int:pk>/', CashFlowDetailView.as_view(), name='detail'),
+    path('add/', CashFlowCreateView.as_view(), name='add'),
+    path('<int:pk>/edit/', CashFlowUpdateView.as_view(), name='edit'),
+    path('<int:pk>/delete/', CashFlowDeleteView.as_view(), name='delete'),
 ]

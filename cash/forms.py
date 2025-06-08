@@ -1,9 +1,9 @@
 from django import forms
-from .models import CashFlowRecord
+from .models import CashFlow
 
-class CashFlowRecordForm(forms.ModelForm):
+class CashFlowForm(forms.ModelForm):
     class Meta:
-        model = CashFlowRecord
+        model = CashFlow
         fields = ['date_created', 'status', 'type', 'category', 'subcategory', 'amount', 'comment']
         widgets = {
             'date_created': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
