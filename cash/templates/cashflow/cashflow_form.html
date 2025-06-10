@@ -8,7 +8,56 @@
 <div class="form-container">
     <form method="post" class="styled-form">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <!-- Поле даты -->
+        <div class="form-group">
+            <label for="{{ form.date_created.id_for_label }}">Дата операции</label>
+            {{ form.date_created }}
+        </div>
+
+        <!-- Статус -->
+        <div class="form-group">
+            <label for="{{ form.status.id_for_label }}">Статус</label>
+            {{ form.status }}
+        </div>
+
+        <!-- Тип -->
+        <div class="form-group">
+            <label for="{{ form.type.id_for_label }}">Тип</label>
+            {{ form.type }}
+        </div>
+
+        <!-- Категория -->
+        <div class="form-group">
+            <label for="id_category">Категория</label>
+            <select id="id_category" name="category">
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if form.category.value|stringformat:"s" == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Подкатегория -->
+        <div class="form-group">
+            <label for="id_subcategory">Подкатегория</label>
+            <select id="id_subcategory" name="subcategory">
+                <!-- Опции будут динамически заполняться -->
+            </select>
+        </div>
+
+        <!-- Сумма -->
+        <div class="form-group">
+            <label for="{{ form.amount.id_for_label }}">Сумма (₽)</label>
+            {{ form.amount }}
+        </div>
+
+        <!-- Комментарий -->
+        <div class="form-group">
+            <label for="{{ form.comment.id_for_label }}">Комментарий</label>
+            {{ form.comment }}
+        </div>
+
+        <!-- Кнопки -->
         <div class="form-actions">
             <button type="submit" class="btn-primary">Сохранить</button>
             <a href="{% url 'cashflow:list' %}" class="btn-secondary">Отмена</a>
@@ -16,7 +65,7 @@
     </form>
 </div>
 
-<!-- Внутренние стили -->
+<!-- Внутренние стили для аккуратного отображения -->
 <style>
 /* Общий контейнер формы */
 .form-container {
@@ -28,26 +77,27 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Стиль самой формы */
+/* Стиль формы с вертикальной раскладкой */
 .styled-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* Стили для каждого поля */
-.styled-form p {
-    margin: 0;
+/* Группы полей для выравнивания */
+.form-group {
     display: flex;
     flex-direction: column;
 }
 
-.styled-form label {
+/* Метки и поля */
+.form-group label {
     font-weight: 600;
     margin-bottom: 5px;
+    width: 150px;
 }
 
-/* Вводы и textarea */
+/* Поля ввода и селекты */
 .styled-form input[type="text"],
 .styled-form input[type="number"],
 .styled-form input[type="date"],
@@ -57,9 +107,12 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
     transition: border-color 0.2s;
 }
 
+/* Фокус */
 .styled-form input[type="text"]:focus,
 .styled-form input[type="number"]:focus,
 .styled-form input[type="date"]:focus,
@@ -69,9 +122,9 @@
     outline: none;
 }
 
-/* Уменьшение размера блока с комментарием */
+/* Размер комментария */
 .styled-form textarea[name="comment"] {
-    height: 60px; /* уменьшено по высоте */
+    height: 80px;
     resize: vertical;
 }
 
@@ -83,6 +136,7 @@
     margin-top: 20px;
 }
 
+/* Основная кнопка */
 .btn-primary {
     padding: 10px 20px;
     background-color: #007bff;
@@ -97,6 +151,7 @@
     background-color: #0069d9;
 }
 
+/* Вторая кнопка */
 .btn-secondary {
     padding: 10px 20px;
     background-color: #6c757d;
@@ -110,4 +165,41 @@
     background-color: #5a6268;
 }
 </style>
+
+<!-- Скрипт для динамической подкатегории -->
+<script>
+  const subcategoriesData = {{ subcategories_json|safe }};
+
+  function updateSubcategories() {
+    const categorySelect = document.getElementById("id_category");
+    const subcategorySelect = document.getElementById("id_subcategory");
+    const selectedCategoryId = parseInt(categorySelect.value);
+
+    subcategorySelect.innerHTML = "";
+
+    const filteredSubcategories = subcategoriesData.filter(
+      subcat => subcat.category_id === selectedCategoryId
+    );
+
+    filteredSubcategories.forEach(obj => {
+      const opt = document.createElement("option");
+      opt.value = obj.id;
+      opt.textContent = obj.name;
+
+      {% if form.subcategory.value %}
+        if (obj.id == "{{ form.subcategory.value }}") {
+          opt.selected = true;
+        }
+      {% endif %}
+
+      subcategorySelect.appendChild(opt);
+    });
+  }
+
+  document.getElementById("id_category").addEventListener("change", updateSubcategories);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    updateSubcategories();
+  });
+</script>
 {% endblock %}
