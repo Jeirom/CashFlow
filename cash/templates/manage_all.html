@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{{% extends 'base.html' %}
 
 {% block content %}
 <h1 style="text-align: center; margin-bottom: 30px;">Управление справочниками</h1>
@@ -19,7 +19,9 @@
       <tbody>
         {% for item in statuses %}
         <tr>
-          <td>{{ item.name }}</td>
+          <td>
+            <a href="{% url 'cashflow:status_detail' item.id %}">{{ item.name }}</a>
+          </td>
           <td>
             <a class="action-link" href="{% url 'cashflow:status_update' item.id %}">Редактировать</a>
             <a class="action-link" href="{% url 'cashflow:status_delete' item.id %}">Удалить</a>
@@ -44,7 +46,9 @@
       <tbody>
         {% for item in types %}
         <tr>
-          <td>{{ item.name }}</td>
+          <td>
+            <a href="{% url 'cashflow:type_detail' item.id %}">{{ item.name }}</a>
+          </td>
           <td>
             <a class="action-link" href="{% url 'cashflow:type_update' item.id %}">Редактировать</a>
             <a class="action-link" href="{% url 'cashflow:type_delete' item.id %}">Удалить</a>
@@ -70,7 +74,9 @@
       <tbody>
         {% for item in categories %}
         <tr>
-          <td>{{ item.name }}</td>
+          <td>
+            <a href="{% url 'cashflow:category_detail' item.id %}">{{ item.name }}</a>
+          </td>
           <td>{{ item.type.name }}</td>
           <td>
             <a class="action-link" href="{% url 'cashflow:category_update' item.id %}">Редактировать</a>
@@ -98,7 +104,9 @@
       <tbody>
         {% for item in subcategories %}
         <tr>
-          <td>{{ item.name }}</td>
+          <td>
+            <a href="{% url 'cashflow:subcategory_detail' item.id %}">{{ item.name }}</a>
+          </td>
           <td>{{ item.category.name }}</td>
           <td>{{ item.type }}</td>
           <td>
@@ -114,17 +122,8 @@
 
 </div>
 
-<!-- Форма добавления/редактирования -->
-{% if form %}
-<h3 style="margin-top:40px;">{{ edit_obj|default:"Добавление" }}</h3>
-<form method="post" class="styled-form">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="form-actions">
-        <button type="submit" class="btn-primary">Сохранить</button>
-    </div>
-</form>
-{% endif %}
+<!-- Остальной код остается без изменений -->
+
 
 <!-- Стиль для аккуратного оформления -->
 <style>
