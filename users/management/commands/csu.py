@@ -3,6 +3,9 @@ from django.contrib.auth import get_user_model
 
 
 class Command(BaseCommand):
+    """
+    Команда для создания супер-пользователя
+    """
 
     def handle(self, *args, **options):
         User = get_user_model()
