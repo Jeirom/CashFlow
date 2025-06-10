@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Детали подкатегории: {{ subcategory.name }}</h1>
+<p>ID: {{ subcategory.id }}</p>
+<p>Название: {{ subcategory.name }}</p>
+<p>Тип: {{ subcategory.get_type_display }}</p>
+<p>Категория: {{ subcategory.category.name }}</p>
+
+<a href="{% url 'cashflow:subcategory_update' subcategory.id %}">Редактировать</a> |
+<a href="{% url 'cashflow:subcategory_delete' subcategory.id %}">Удалить</a> |
+<a href="{% url 'cashflow:manage' %}">Назад к списку</a>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Подтвердите удаление категории: {{ category.name }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+    <a href="{% url 'cashflow:category_detail' category.id %}">Отмена</a>
+</form>
+{% endblock %}

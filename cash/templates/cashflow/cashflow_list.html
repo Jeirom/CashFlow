@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block title %}Список CashFlow{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 20px;">Список транзакций</h2>
+
+
+<!-- Форма фильтров -->
+<form method="get" class="filter-form">
+    <div class="filter-row">
+        <div class="filter-item">
+            <label>Дата от:
+                <input type="date" name="date_from" value="{{ request.GET.start_date }}">
+            </label>
+        </div>
+        <div class="filter-item">
+            <label>до:
+                <input type="date" name="date_to" value="{{ request.GET.end_date }}">
+            </label>
+        </div>
+        <div class="filter-item">
+            <label>Статус:
+                <select name="status">
+                    <option value="">Все</option>
+                    {% for s in statuses %}
+                    <option value="{{ s.id }}" {% if request.GET.status == s.id|stringformat:"s" %}selected{% endif %}>{{ s.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+        <div class="filter-item">
+            <label>Тип:
+                <select name="type">
+                    <option value="">Все</option>
+                    {% for t in types %}
+                    <option value="{{ t.id }}" {% if request.GET.type == t.id|stringformat:"s" %}selected{% endif %}>{{ t.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+        <div class="filter-item">
+            <label>Категория:
+                <select name="category">
+                    <option value="">Все</option>
+                    {% for c in categories %}
+                    <option value="{{ c.id }}" {% if request.GET.category == c.id|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+        <div class="filter-item">
+            <label>Подкатегория:
+                <select name="subcategory">
+                    <option value="">Все</option>
+                    {% for sc in subcategories %}
+                    <option value="{{ sc.id }}" {% if request.GET.subcategory == sc.id|stringformat:"s" %}selected{% endif %}>{{ sc.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+    </div>
+        <!-- Кнопка "Добавить операцию" -->
+    <div style="margin-bottom: 20px; display: flex; justify-content: flex-end;">
+        <a href="{% url 'cashflow:add' %}" class="btn-primary">Добавить операцию</a>
+    </div>
+    <div style="margin-bottom: 20px; display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn-secondary">Фильтровать</button>
+    </div>
+</form>
+
+<!-- Таблица -->
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Тип</th>
+            <th>Категория</th>
+            <th>Подкатегория</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cashflows %}
+        <tr>
+            <td>{{ item.date_created }}</td>
+            <td>{{ item.status.name }}</td>
+            <td>{{ item.type.name }}</td>
+            <td>{{ item.category.name }}</td>
+            <td>{{ item.subcategory.name }}</td>
+            <td>{{ item.amount }}</td>
+            <td>{{ item.comment }}</td>
+            <td class="actions-cell">
+                <a href="{% url 'cashflow:detail' item.id %}" class="btn-action">Подробнее</a>
+                <a href="{% url 'cashflow:edit' item.id %}" class="btn-action">Редактировать</a>
+                <a href="{% url 'cashflow:delete' item.id %}" class="btn-action btn-danger">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Внутренние стили для красоты и единого стиля -->
+<style>
+/* Общие стили для формы фильтров */
+.filter-form {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.filter-item {
+    display: flex;
+    flex-direction: column;
+}
+.filter-item label {
+    font-weight: 600;
+    font-size: 14px;
+}
+.btn-secondary {
+    padding: 8px 16px;
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Кнопка "Добавить операцию" */
+.btn-primary {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+.btn-primary:hover {
+    background-color: #0069d9;
+}
+
+/* Таблица с единым стилем */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.styled-table th {
+    background-color: #e9ecef;
+    font-weight: 600;
+}
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.styled-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Стиль для кнопок действий внутри таблицы */
+.actions-cell {
+    display: flex;
+    gap: 8px;
+}
+.btn-action {
+    padding: 6px 12px;
+    background-color: #17a2b8;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: background-color 0.3s;
+}
+.btn-action:hover {
+    background-color: #138496;
+}
+.btn-danger {
+    background-color: #dc3545;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+}
+</style>
+{% endblock %}

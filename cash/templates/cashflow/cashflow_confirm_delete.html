@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление транзакции{% endblock %}
+
+{% block content %}
+<h2>Вы уверены, что хотите удалить эту транзакцию?</h2>
+<p><strong>Название::</strong> {{ object.category }}</p>
+<p><strong>На сумму:</strong> {{ object.amount }}</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, удалить</button>
+</form>
+<a href="{% url 'cashflow:list' %}">Отмена</a>
+{% endblock %}

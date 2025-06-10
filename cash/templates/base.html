@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{% block title %}ДиДиСи{% endblock %}</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<style>
+  /* Общие стили */
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.95),
+      rgba(240, 240, 240, 0.95)
+    );
+    color: #333;
+    margin: 0;
+    padding-top: 70px; /* для фиксированного меню */
+    line-height: 1.6;
+    transition: all 0.3s ease;
+  }
+
+  /* Шапка */
+  .navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .navbar-brand img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+
+  /* Логотип и название */
+  .logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #222;
+  }
+
+  /* Кнопки */
+  button, .btn {
+    background: linear-gradient(to right, #FFCC00, #FFC107);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  button:hover, .btn:hover {
+    background: linear-gradient(to right, #FFC107, #FFCC00);
+    transform: translateY(-2px);
+  }
+
+  /* Карточки */
+  .card-custom {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .card-custom:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    transform: translateY(-4px);
+  }
+
+  /* Заголовки */
+  h1, h2, h3 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #222;
+  }
+
+  /* Ссылки */
+  a {
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+
+  /* Иконки и изображения внутри карточек */
+  .icon-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-right: 10px;
+  }
+
+  /* Футер */
+  footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    margin-top: 40px;
+  }
+
+  /* Специальные стили для элементов */
+  .notification {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  /* Мобильная адаптация */
+  @media(max-width: 768px) {
+    body {
+      padding: 10px;
+    }
+    .navbar {
+      padding: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Шапка -->
+<nav class="navbar fixed-top navbar-expand-lg">
+  <div class="container-fluid d-flex justify-content-between align-items-center px-4">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="https://via.placeholder.com/50x50?text=Л" alt="Логотип" />
+      <span class="logo ms-2">ДиДиСи</span>
+    </a>
+    <div class="dropdown">
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Меню
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menuDropdown">
+        <li><a class="dropdown-item" href="#">Пустая ссылка 1</a></li>
+        <li><a class="dropdown-item" href="#">Пустая ссылка 2</a></li>
+        <li><a class="dropdown-item" href="#">Пустая ссылка 3</a></li>
+        <li><a class="dropdown-item" href="#">Пустая ссылка 4</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Основной контент -->
+<main class="container mt-4">
+  {% block content %}
+  <!-- Пример карточки -->
+  <div class="card-custom">
+    <h2>Пример карточки</h2>
+    <p>Это пример карточки с мягкими тенями и скругленными углами, похожей на оригинальный дизайн.</p>
+    <button class="btn mt-3">Кнопка</button>
+  </div>
+  {% endblock %}
+</main>
+
+<!-- Подвал -->
+<footer class="text-center">
+  <div class="container">
+    <p>&copy; 2025 ДиДиСи. Все права защищены. | <a href="#">О нас</a> | <a href="#">Контакты</a></p>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

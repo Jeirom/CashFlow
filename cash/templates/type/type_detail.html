@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Детали типа: {{ type.name }}</h1>
+<p>ID: {{ type.id }}</p>
+<p>Название: {{ type.name }}</p>
+
+<a href="{% url 'cashflow:type_update' type.id %}">Редактировать</a> |
+<a href="{% url 'cashflow:type_delete' type.id %}">Удалить</a> |
+<a href="{% url 'cashflow:manage' %}">Назад к списку</a>
+{% endblock %}

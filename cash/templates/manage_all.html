@@ -1,0 +1,215 @@
+{{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="text-align: center; margin-bottom: 30px;">Управление справочниками</h1>
+
+<!-- Общий контейнер для всех таблиц -->
+<div class="directory-container">
+
+  <!-- Статусы -->
+  <section class="section-block">
+    <h2>Статусы</h2>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in statuses %}
+        <tr>
+          <td>
+            <a href="{% url 'cashflow:status_detail' item.id %}">{{ item.name }}</a>
+          </td>
+          <td>
+            <a class="action-link" href="{% url 'cashflow:status_update' item.id %}">Редактировать</a>
+            <a class="action-link" href="{% url 'cashflow:status_delete' item.id %}">Удалить</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a class="btn" href="{% url 'cashflow:status_create' %}">Добавить статус</a>
+  </section>
+
+  <!-- Типы -->
+  <section class="section-block">
+    <h2>Типы</h2>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in types %}
+        <tr>
+          <td>
+            <a href="{% url 'cashflow:type_detail' item.id %}">{{ item.name }}</a>
+          </td>
+          <td>
+            <a class="action-link" href="{% url 'cashflow:type_update' item.id %}">Редактировать</a>
+            <a class="action-link" href="{% url 'cashflow:type_delete' item.id %}">Удалить</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a class="btn" href="{% url 'cashflow:type_create' %}">Добавить тип</a>
+  </section>
+
+  <!-- Категории -->
+  <section class="section-block">
+    <h2>Категории</h2>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Тип</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in categories %}
+        <tr>
+          <td>
+            <a href="{% url 'cashflow:category_detail' item.id %}">{{ item.name }}</a>
+          </td>
+          <td>{{ item.type.name }}</td>
+          <td>
+            <a class="action-link" href="{% url 'cashflow:category_update' item.id %}">Редактировать</a>
+            <a class="action-link" href="{% url 'cashflow:category_delete' item.id %}">Удалить</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a class="btn" href="{% url 'cashflow:category_create' %}">Добавить категорию</a>
+  </section>
+
+  <!-- Подкатегории -->
+  <section class="section-block">
+    <h2>Подкатегории</h2>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Категория</th>
+          <th>Тип</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in subcategories %}
+        <tr>
+          <td>
+            <a href="{% url 'cashflow:subcategory_detail' item.id %}">{{ item.name }}</a>
+          </td>
+          <td>{{ item.category.name }}</td>
+          <td>{{ item.type }}</td>
+          <td>
+            <a class="action-link" href="{% url 'cashflow:subcategory_update' item.id %}">Редактировать</a>
+            <a class="action-link" href="{% url 'cashflow:subcategory_delete' item.id %}">Удалить</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a class="btn" href="{% url 'cashflow:subcategory_create' %}">Добавить подкатегорию</a>
+  </section>
+
+</div>
+
+<!-- Остальной код остается без изменений -->
+
+
+<!-- Стиль для аккуратного оформления -->
+<style>
+/* Общий контейнер */
+.directory-container {
+  max-width: 1000px;
+  margin: 0 auto 40px auto;
+  padding: 10px;
+}
+
+/* Разделы */
+.section-block {
+  margin-bottom: 30px;
+}
+
+/* Заголовки разделов */
+h2 {
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+
+/* Таблицы */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+.styled-table th,
+.styled-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+.styled-table th {
+  background-color: #f2f2f2;
+}
+
+/* Действия (ссылки) */
+.action-link {
+  margin-right: 10px;
+  text-decoration: none;
+  color: #007bff;
+}
+.action-link:hover {
+  text-decoration: underline;
+}
+
+/* Кнопки */
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-top: 10px;
+  background-color: #28a745;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+.btn:hover {
+  background-color: #218838;
+}
+
+/* Основная кнопка */
+.btn-primary {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+/* Обертка для формы */
+.styled-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 600px;
+  margin-top: 20px;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Регистрация</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.as_p }}
+        <button type="submit" formmethod="post" class="btn btn-primary">Зарегистрироваться</button>
+    </form>
+</div>
+{% endblock %}

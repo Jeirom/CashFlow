@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Детали транзакции{% endblock %}
+
+{% block content %}
+        {% csrf_token %}
+    <h2>Детали транзакции</h2>
+    <ul>
+    <li><strong>ID:</strong> {{ object.id }}</li>
+    <li><strong>Пользователь:</strong> {{ object.user.email }}</li>
+    <li><strong>Дата операции:</strong> {{ object.date_created }}</li>
+    <li><strong>Статус:</strong> {{ object.status.name }}</li>
+    <li><strong>Тип:</strong> {{ object.type.name }}</li>
+    <li><strong>Категория:</strong> {{ object.category.name }}</li>
+    <li><strong>Подкатегория:</strong> {{ object.subcategory.name }}</li>
+    <li><strong>Сумма:</strong> {{ object.amount }}</li>
+    <li><strong>Комментарий:</strong> {{ object.comment }}</li>
+    <li><strong>Дата создания записи:</strong> {{ object.created_at }}</li>
+    <li><strong>Дата последнего изменения:</strong> {{ object.updated_at }}</li>
+</ul>
+<a href="{% url 'cashflow:list' %}">Назад к списку</a>
+{% endblock %}

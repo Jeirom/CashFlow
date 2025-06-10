@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Детали категории: {{ category.name }}</h1>
+<p>ID: {{ category.id }}</p>
+<p>Название: {{ category.name }}</p>
+<p>Тип: {{ category.type.name }}</p>
+
+<a href="{% url 'cashflow:category_update' category.id %}">Редактировать</a> |
+<a href="{% url 'cashflow:category_delete' category.id %}">Удалить</a> |
+<a href="{% url 'cashflow:manage' %}">Назад к списку</a>
+{% endblock %}

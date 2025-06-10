@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% if category %}Редактировать{% else %}Создать{% endif %} категорию</h1>
+<form method="post">
+    {% csrf_token %}
+    <p>
+        {{ form.name.label_tag }}<br>
+        {{ form.name }}
+    </p>
+    <p>
+        {{ form.type.label_tag }}<br>
+        {{ form.type }}
+    </p>
+    <button type="submit">{% if category %}Обновить{% else %}Создать{% endif %}</button>
+</form>
+<a href="{% url 'cashflow:manage' %}">Назад к списку</a>
+{% endblock %}
