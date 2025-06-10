@@ -157,10 +157,10 @@ class CashFlow(models.Model):
     status = models.ForeignKey(Status, on_delete=models.PROTECT, verbose_name="Статус")
     type = models.ForeignKey(Type, on_delete=models.PROTECT, verbose_name="Тип")
     category = models.ForeignKey(
-        Category, on_delete=models.PROTECT, verbose_name="Категория"
+        Category, on_delete=models.CASCADE, verbose_name="Категория"
     )
     subcategory = models.ForeignKey(
-        Subcategory, on_delete=models.PROTECT, verbose_name="Подкатегория"
+        Subcategory, on_delete=models.CASCADE, verbose_name="Подкатегория"
     )
     amount = models.DecimalField(
         "Сумма (₽)",
