@@ -136,6 +136,16 @@ class CashFlowUpdateView(UpdateView):
     template_name = "cashflow/cashflow_form.html"
     success_url = reverse_lazy("cashflow:list")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Передача начальных значений для подкатегории
+        if self.object:
+            context['initial_category'] = self.object.category.id
+            context['initial_subcategory'] = self.object.subcategory.id
+        # Передача данных для подкатегорий
+        context['subcategories_json'] = list(self.object.subcategory.category.subcategory_set.values('id', 'name', 'category_id'))
+        return context
+
     def form_valid(self, form):
         messages.success(self.request, "Запись успешно обновлена")
         return super().form_valid(form)
@@ -179,35 +189,68 @@ class CashFlowDetailView(DetailView):
 
 
 class StatusListView(ListView):
+    """
+    StatusListView:
+        - отображает список всех статусов
+        - использует шаблон: ../templates/status/status_list.html
+        - контекстное имя: 'statuses'
+    """
     model = Status
-    template_name = "status_list.html"
+    template_name = "../templates/status/status_list.html"
     context_object_name = "statuses"
 
 
 class StatusDetailView(DetailView):
+    """
+    StatusDetailView:
+        - отображает детали выбранного статуса
+        - использует шаблон: ../templates/status/status_detail.html
+        - контекстное имя: 'status'
+    """
     model = Status
-    template_name = "status_detail.html"
+    template_name = "../templates/status/status_detail.html"
     context_object_name = "status"
 
 
 class StatusCreateView(CreateView):
+    """
+    StatusCreateView:
+        - позволяет создать новый статус
+        - использует поле: 'name'
+        - шаблон: ../templates/status/status_form.html
+        - после успешного создания перенаправляет на: 'cashflow:manage'
+    """
     model = Status
     fields = ["name"]
-    template_name = "status_form.html"
-    success_url = reverse_lazy("status_list")
+    template_name = "../templates/status/status_form.html"
+    success_url = reverse_lazy("cashflow:manage")
 
 
 class StatusUpdateView(UpdateView):
+    """
+    StatusUpdateView:
+        - позволяет редактировать существующий статус
+        - использует поле: 'name'
+        - шаблон: ../templates/status/status_form.html
+        - после успешного обновления перенаправляет на: 'cashflow:manage'
+    """
     model = Status
     fields = ["name"]
-    template_name = "status_form.html"
-    success_url = reverse_lazy("status_list")
+    template_name = "../templates/status/status_form.html"
+    success_url = reverse_lazy("cashflow:manage")
 
 
 class StatusDeleteView(DeleteView):
+    """
+    StatusDeleteView:
+        - позволяет удалить статус
+        - использует шаблон: ../templates/status/status_confirm_delete.html
+        - после удаления перенаправляет на: 'cashflow:manage'
+    """
     model = Status
-    template_name = "status_confirm_delete.html"
-    success_url = reverse_lazy("status_list")
+    template_name = "../templates/status/status_confirm_delete.html"
+    success_url = reverse_lazy("cashflow:manage")
+
 
 
 ########################################################################################################################
@@ -216,35 +259,68 @@ class StatusDeleteView(DeleteView):
 
 
 class TypeListView(ListView):
+    """
+    TypeListView:
+        - отображает список всех типов
+        - использует шаблон: ../templates/type/type_list.html
+        - контекстное имя: 'types'
+    """
     model = Type
-    template_name = "type_list.html"
+    template_name = "../templates/type/type_list.html"
     context_object_name = "types"
 
 
 class TypeDetailView(DetailView):
+    """
+    TypeDetailView:
+        - отображает детали выбранного типа
+        - использует шаблон: ../templates/type/type_detail.html
+        - контекстное имя: 'type'
+    """
     model = Type
-    template_name = "type_detail.html"
+    template_name = "../templates/type/type_detail.html"
     context_object_name = "type"
 
 
 class TypeCreateView(CreateView):
+    """
+    TypeCreateView:
+        - позволяет создать новый тип
+        - использует поле: 'name'
+        - шаблон: ../templates/type/type_form.html
+        - после успешного создания перенаправляет на: 'cashflow:manage'
+    """
     model = Type
     fields = ["name"]
-    template_name = "type_form.html"
-    success_url = reverse_lazy("type_list")
+    template_name = "../templates/type/type_form.html"
+    success_url = reverse_lazy("cashflow:manage")
 
 
 class TypeUpdateView(UpdateView):
+    """
+    TypeUpdateView:
+        - позволяет редактировать существующий тип
+        - использует поле: 'name'
+        - шаблон: ../templates/type/type_form.html
+        - после успешного обновления перенаправляет на: 'cashflow:manage'
+    """
     model = Type
     fields = ["name"]
-    template_name = "type_form.html"
-    success_url = reverse_lazy("type_list")
+    template_name = "../templates/type/type_form.html"
+    success_url = reverse_lazy("cashflow:manage")
 
 
 class TypeDeleteView(DeleteView):
+    """
+    TypeDeleteView:
+        - позволяет удалить тип
+        - использует шаблон: ../templates/type/type_confirm_delete.html
+        - после удаления перенаправляет на: 'cashflow:manage'
+    """
     model = Type
-    template_name = "type_confirm_delete.html"
-    success_url = reverse_lazy("type_list")
+    template_name = "../templates/type/type_confirm_delete.html"
+    success_url = reverse_lazy("cashflow:manage")
+
 
 
 ########################################################################################################################
@@ -253,35 +329,69 @@ class TypeDeleteView(DeleteView):
 
 
 class CategoryListView(ListView):
+    """
+    CategoryListView:
+        - отображает список всех категорий
+        - использует шаблон: ../templates/category/category_list.html
+        - контекстное имя: 'categories'
+    """
     model = Category
-    template_name = "category_list.html"
+    template_name = "../templates/category/category_list.html"
     context_object_name = "categories"
 
 
 class CategoryDetailView(DetailView):
+    """
+    CategoryDetailView:
+        - отображает детали выбранной категории
+        - использует шаблон: ../templates/category/category_detail.html
+        - контекстное имя: 'category'
+    """
     model = Category
-    template_name = "category_detail.html"
+    template_name = "../templates/category/category_detail.html"
     context_object_name = "category"
 
 
 class CategoryCreateView(CreateView):
+    """
+    CategoryCreateView:
+        - позволяет создать новую категорию
+        - использует форму: CategoryForm
+        - шаблон: ../templates/category/category_form.html
+        - после успешного создания перенаправляет на: 'cashflow:manage'
+    """
     model = Category
     fields = ["name"]
-    template_name = "category_form.html"
-    success_url = reverse_lazy("category_list")
+    form_class = CategoryForm
+    template_name = "../templates/category/category_form.html"
+    success_url = reverse_lazy("cashflow:manage")
 
 
 class CategoryUpdateView(UpdateView):
+    """
+    CategoryUpdateView:
+        - позволяет редактировать существующую категорию
+        - использует форму: CategoryForm
+        - шаблон: ../templates/category/category_form.html
+        - после успешного обновления перенаправляет на: 'cashflow:manage'
+    """
     model = Category
-    fields = ["name"]
-    template_name = "category_form.html"
-    success_url = reverse_lazy("category_list")
+    form_class = CategoryForm
+    template_name = "../templates/category/category_form.html"
+    success_url = reverse_lazy("cashflow:manage")
 
 
 class CategoryDeleteView(DeleteView):
+    """
+    CategoryDeleteView:
+        - позволяет удалить категорию
+        - использует шаблон: ../templates/category/category_confirm_delete.html
+        - после удаления перенаправляет на: 'cashflow:manage'
+    """
     model = Category
-    template_name = "category_confirm_delete.html"
-    success_url = reverse_lazy("category_list")
+    template_name = "../templates/category/category_confirm_delete.html"
+    success_url = reverse_lazy("cashflow:manage")
+
 
 
 ########################################################################################################################
@@ -290,38 +400,100 @@ class CategoryDeleteView(DeleteView):
 
 
 class SubcategoryListView(ListView):
+    """
+    SubcategoryListView:
+        - отображает список всех подкатегорий
+        - использует шаблон: ../templates/subcategory/subcategory_list.html
+        - контекстное имя: 'subcategories'
+    """
     model = Subcategory
-    template_name = "subcategory_list.html"
+    template_name = "../templates/subcategory/subcategory_list.html"
     context_object_name = "subcategories"
 
 
 class SubcategoryDetailView(DetailView):
+    """
+    SubcategoryDetailView:
+        - отображает детали выбранной подкатегории
+        - использует шаблон: ../templates/subcategory/subcategory_detail.html
+        - контекстное имя: 'subcategory'
+    """
+
     model = Subcategory
-    template_name = "subcategory_detail.html"
+    template_name = "../templates/subcategory/subcategory_detail.html"
     context_object_name = "subcategory"
 
 
 class SubcategoryCreateView(CreateView):
+    """
+    SubcategoryCreateView:
+        - позволяет создать новую подкатегорию
+        - использует форму: SubcategoryForm
+        - шаблон: ../templates/subcategory/subcategory_form.html
+        - после успешного создания перенаправляет на: 'cashflow:manage'
+    """
     model = Subcategory
-    fields = ["name", "category"]
-    template_name = "subcategory_form.html"
-    success_url = reverse_lazy("subcategory_list")
+    form_class = SubcategoryForm
+    template_name = "../templates/subcategory/subcategory_form.html"
+    success_url = reverse_lazy("cashflow:manage")
 
 
 class SubcategoryUpdateView(UpdateView):
+    """
+    SubcategoryUpdateView:
+        - позволяет редактировать существующую подкатегорию
+        - использует форму: SubcategoryForm
+        - шаблон: ../templates/subcategory/subcategory_form.html
+        - после успешного обновления перенаправляет на: 'cashflow:manage'
+    """
     model = Subcategory
-    fields = ["name", "category"]
-    template_name = "subcategory_form.html"
-    success_url = reverse_lazy("subcategory_list")
+    form_class = SubcategoryForm
+    template_name = "../templates/subcategory/subcategory_form.html"
+    success_url = reverse_lazy("cashflow:manage")
 
 
 class SubcategoryDeleteView(DeleteView):
+    """
+    SubcategoryDeleteView:
+        - позволяет удалить подкатегорию
+        - использует шаблон: ../templates/subcategory/subcategory_confirm_delete.html
+        - после удаления перенаправляет на: 'cashflow:manage'
+    """
     model = Subcategory
-    template_name = "subcategory_confirm_delete.html"
-    success_url = reverse_lazy("subcategory_list")
+    template_name = "../templates/subcategory/subcategory_confirm_delete.html"
+    success_url = reverse_lazy("cashflow:manage")
+
+
+# Other views #
 
 
 def manage_all(request):
+    """
+    🔧 Управление всеми сущностями: статусы, типы, категории и подкатегории
+
+    Эта функция служит центральным хабом для просмотра, добавления, редактирования и удаления
+    записей в моделях Status, Type, Category и Subcategory. Обеспечивает динамическое управление
+    через универсальный интерфейс, основанный на параметрах GET и POST.
+
+    Основные возможности:
+    - Получение и отображение всех записей по моделям
+    - Создание новых записей через формы
+    - Редактирование существующих с предзаполненными формами
+    - Удаление выбранных элементов с подтверждением
+
+    Используемые параметры запроса:
+    - `action`: действие ('edit', 'delete' или отсутствует для просмотра)
+    - `model`: название модели ('status', 'type', 'category', 'subcategory')
+    - `id`: идентификатор объекта для редактирования или удаления
+
+    Важные моменты:
+    - Автоматическая обработка форм в зависимости от модели
+    - Перенаправление на страницу управления после успешных операций
+    - Передача в шаблон всех данных для отображения и взаимодействия
+
+    В результате — мощный и гибкий инструмент для администрирования всех связанных данных
+    в одном месте, с минимальными усилиями и максимальной гибкостью.
+    """
     # Получаем все записи
     statuses = Status.objects.all()
     types = Type.objects.all()
@@ -404,3 +576,4 @@ def manage_all(request):
         "edit_obj": obj if "obj" in locals() else None,
     }
     return render(request, "manage_all.html", context)
+
