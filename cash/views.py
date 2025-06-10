@@ -11,7 +11,7 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy
 from .models import CashFlow, Category, Type, Status, Subcategory
-from .forms import CashFlowForm, StatusForm, TypeForm, CategoryForm, SubcategoryForm
+from .forms import CashFlowForm, StatusForm, TypeForm, CategoryForm, SubcategoryForm, CashFlowUpdateForm
 from django.contrib import messages
 from django.utils import timezone
 
@@ -88,6 +88,7 @@ class CashFlowListView(LoginRequiredMixin, ListView):
         context["types"] = Type.objects.all()
         context["categories"] = Category.objects.all()
         context["subcategories"] = Subcategory.objects.all()
+
         return context
 
 
@@ -132,19 +133,9 @@ class CashFlowUpdateView(UpdateView):
     обновления отображает сообщение и возвращает к списку всех записей.
     """
     model = CashFlow
-    form_class = CashFlowForm
+    form_class = CashFlowUpdateForm
     template_name = "cashflow/cashflow_form.html"
     success_url = reverse_lazy("cashflow:list")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Передача начальных значений для подкатегории
-        if self.object:
-            context['initial_category'] = self.object.category.id
-            context['initial_subcategory'] = self.object.subcategory.id
-        # Передача данных для подкатегорий
-        context['subcategories_json'] = list(self.object.subcategory.category.subcategory_set.values('id', 'name', 'category_id'))
-        return context
 
     def form_valid(self, form):
         messages.success(self.request, "Запись успешно обновлена")
@@ -361,7 +352,6 @@ class CategoryCreateView(CreateView):
         - после успешного создания перенаправляет на: 'cashflow:manage'
     """
     model = Category
-    fields = ["name"]
     form_class = CategoryForm
     template_name = "../templates/category/category_form.html"
     success_url = reverse_lazy("cashflow:manage")

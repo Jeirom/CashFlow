@@ -27,6 +27,22 @@ class CashFlowForm(forms.ModelForm):
             "comment": "Комментарий",
         }
 
+
+class CashFlowUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CashFlow
+        fields = ['date_created', 'comment']  # Только эти два поля будут в форме
+
+        widgets = {
+            'date_created': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+        labels = {
+            'date_created': 'Дата операции',
+            'comment': 'Комментарий',
+        }
+
+
 class StatusForm(forms.ModelForm):
     class Meta:
         model = Status
