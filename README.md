@@ -55,22 +55,29 @@ pip install -r requirements.txt
 ## Настройка базы данных
 1. Создайте базу данных PostgreSQL:
 
-# createdb didisi_db
+```
+createdb didisi_db
+```
 
 2. Настройте переменные окружения: Создайте файл .env в корне проекта и добавьте:
 
-# DATABASE_URL=postgresql://username:password@localhost:5432/didisi_db
+DATABASE_URL=postgresql://username:password@localhost:5432/didisi_db
 
-# SECRET_KEY=your_secret_key
+SECRET_KEY=your_secret_key
 
 3. Примените миграции:
 
-# python manage.py migrate
+```
+python manage.py migrate
+```
 
 Запуск веб-сервиса
 
 # Для FastAPI/Flask:
+
+```
 uvicorn app.main:app --reload
+```
 
 # Для Django:
 
