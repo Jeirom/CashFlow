@@ -1,6 +1,5 @@
 from django.contrib import admin
 from cash.models import Status, Type, Category, Subcategory, CashFlow
-from users.models import User
 
 
 @admin.register(Status)

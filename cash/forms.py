@@ -31,15 +31,17 @@ class CashFlowForm(forms.ModelForm):
 class CashFlowUpdateForm(forms.ModelForm):
     class Meta:
         model = CashFlow
-        fields = ['date_created', 'comment']  # Только эти два поля будут в форме
+        fields = ["date_created", "comment"]  # Только эти два поля будут в форме
 
         widgets = {
-            'date_created': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'comment': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            "date_created": forms.DateInput(
+                attrs={"type": "date", "class": "form-control"}
+            ),
+            "comment": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
         }
         labels = {
-            'date_created': 'Дата операции',
-            'comment': 'Комментарий',
+            "date_created": "Дата операции",
+            "comment": "Комментарий",
         }
 
 
@@ -51,6 +53,7 @@ class StatusForm(forms.ModelForm):
             "name": "Название статуса",
         }
 
+
 class TypeForm(forms.ModelForm):
     class Meta:
         model = Type
@@ -58,6 +61,7 @@ class TypeForm(forms.ModelForm):
         labels = {
             "name": "Название типа",
         }
+
 
 class CategoryForm(forms.ModelForm):
     class Meta:
@@ -67,9 +71,11 @@ class CategoryForm(forms.ModelForm):
             "name": "Название категории",
             "type": "Тип",
         }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['type'].required = True
+        self.fields["type"].required = True
+
 
 class SubcategoryForm(forms.ModelForm):
     class Meta:
