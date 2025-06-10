@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import (
     ListView,
@@ -15,18 +16,24 @@ from django.contrib import messages
 from django.utils import timezone
 
 
-class CashFlowListView(ListView):
+class CashFlowListView(LoginRequiredMixin, ListView):
+    """🌟 CashFlowListView — ваш щит и меч в мире финансов.
+    Фильтруйте, сортируйте, управляйте — и делайте деньги своим оружием.
+    Погружайтесь в детали, управляйте потоками — и достигайте новых высот!"""
+
+    login_url = 'users:login'  # URL, куда перенаправлять неавторизованных
+    redirect_field_name = 'next'  # стандартное имя GET-параметра для возврата
     model = CashFlow
     template_name = "cashflow/cashflow_list.html"
     context_object_name = "cashflows"
     paginate_by = 20  # добавляем пагинацию
-    ordering = ["-date_created"]
+    ordering = ["-date_created"] # сортируем пл дате создания записи
 
     def get_queryset(self):
         qs = (
             super()
             .get_queryset()
-            .filter(user=self.request.user)
+            .filter(user=self.request.user) # Выгружаем юзеру только его собственные записи.
             .select_related("status", "type", "category", "subcategory")
         )
 
@@ -73,6 +80,9 @@ class CashFlowListView(ListView):
         return qs
 
     def get_context_data(self, **kwargs):
+        """
+        Наделяем вьюшку контекстами всех его подопечных.
+        """
         context = super().get_context_data(**kwargs)
         context["statuses"] = Status.objects.all()
         context["types"] = Type.objects.all()
@@ -107,12 +117,20 @@ class CashFlowCreateView(CreateView):
         subcategories = list(Subcategory.objects.values("id", "name", "category_id"))
         context["subcategories_json"] = json.dumps(subcategories)
         context["today"] = timezone.now().date()
+        context["statuses"] = Status.objects.all()
+        context["types"] = Type.objects.all()
+        context["categories"] = Category.objects.all()
+        context["subcategories"] = Subcategory.objects.all()
         return context
 
 
 class CashFlowUpdateView(UpdateView):
-    """Представление для редактирования записи о движении денежных средств"""
+    """
+    Представление для редактирования существующей записи о движении денежных средств.
 
+    Позволяет пользователю внести изменения в выбранную запись. После успешного
+    обновления отображает сообщение и возвращает к списку всех записей.
+    """
     model = CashFlow
     form_class = CashFlowForm
     template_name = "cashflow/cashflow_form.html"
@@ -124,8 +142,12 @@ class CashFlowUpdateView(UpdateView):
 
 
 class CashFlowDeleteView(DeleteView):
-    """Представление для удаления записи о движении денежных средств"""
+    """
+    Представление для удаления записи о движении денежных средств.
 
+    Позволяет пользователю подтвердить удаление выбранной записи. После удаления
+    отображает сообщение и перенаправляет на список всех записей.
+    """
     model = CashFlow
     template_name = "cashflow/cashflow_confirm_delete.html"
     success_url = reverse_lazy("cashflow:list")
@@ -136,8 +158,12 @@ class CashFlowDeleteView(DeleteView):
 
 
 class CashFlowDetailView(DetailView):
-    """Представление для удаления записи о движении денежных средств"""
+    """
+    Представление для просмотра подробной информации о конкретной записи.
 
+    Позволяет пользователю ознакомиться с деталями выбранной операции. Не предназначено
+    для редактирования или удаления, только для просмотра.
+    """
     model = CashFlow
     template_name = "cashflow/cashflow_detail.html"
     success_url = reverse_lazy("/list/")

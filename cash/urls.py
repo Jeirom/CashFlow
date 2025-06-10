@@ -1,5 +1,7 @@
+import os
+
 from django.urls import path
-from .views import (
+from cash.views import (
     CashFlowListView,
     CashFlowDetailView,
     CashFlowCreateView,
@@ -7,14 +9,15 @@ from .views import (
     CashFlowDeleteView,
     manage_all,
 )
+from cash.apps import CashConfig
+app_name = 'cashflow' if os.getenv("DEBUG") == "True" else CashConfig.name
 
-app_name = "cashflow"
 
 urlpatterns = [
-    path("", CashFlowListView.as_view(), name="list"),
+    path("", CashFlowListView.as_view(), name="list"), # main-страница
     path("<int:pk>/", CashFlowDetailView.as_view(), name="detail"),
     path("add/", CashFlowCreateView.as_view(), name="add"),
     path("<int:pk>/edit/", CashFlowUpdateView.as_view(), name="edit"),
-    path("<int:pk>/delete/", CashFlowDeleteView.as_view(), name="delete"),
-    path("manage/", manage_all, name="manage"),
+    path("<int:pk>/delete/", CashFlowDeleteView.as_view(), name="delete"), # до этого момента урлы - CRUD CashFlow
+    path("manage/", manage_all, name="manage"), # вьюшка редактирования остальных моделей
 ]

@@ -17,27 +17,47 @@ class CashFlowForm(forms.ModelForm):
         widgets = {
             "date_created": forms.DateInput(attrs={"type": "date"}),
         }
-
+        labels = {
+            "date_created": "Дата создания",
+            "status": "Статус операции",
+            "type": "Тип движения",
+            "category": "Категория",
+            "subcategory": "Подкатегория",
+            "amount": "Сумма",
+            "comment": "Комментарий",
+        }
 
 class StatusForm(forms.ModelForm):
     class Meta:
         model = Status
         fields = ["name"]
-
+        labels = {
+            "name": "Название статуса",
+        }
 
 class TypeForm(forms.ModelForm):
     class Meta:
         model = Type
         fields = ["name"]
-
+        labels = {
+            "name": "Название типа",
+        }
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ["name", "type"]
-
+        labels = {
+            "name": "Название категории",
+            "type": "Тип",
+        }
 
 class SubcategoryForm(forms.ModelForm):
     class Meta:
         model = Subcategory
         fields = ["name", "type", "category"]
+        labels = {
+            "name": "Название подкатегории",
+            "type": "Тип",
+            "category": "Категория",
+        }
