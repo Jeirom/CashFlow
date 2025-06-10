@@ -51,6 +51,9 @@ class CategoryForm(forms.ModelForm):
             "name": "Название категории",
             "type": "Тип",
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['type'].required = True
 
 class SubcategoryForm(forms.ModelForm):
     class Meta:
