@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление статуса{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center; margin-bottom: 20px;">Подтвердите удаление</h2>
+
+<div class="delete-confirmation">
+    <p>Вы уверены, что хотите удалить статус: <strong>{{ status.name }}</strong>?</p>
+</div>
+
+<form method="post" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn-primary">Удалить</button>
+    <a href="{% url 'cashflow:manage' %}" class="btn-secondary">Отмена</a>
+</form>
+{% endblock %}

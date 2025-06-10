@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Детали статуса{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center; margin-bottom: 20px;">Детали статуса</h2>
+
+<div class="detail-container">
+    <p><strong>Название:</strong> {{ status.name }}</p>
+</div>
+
+<div class="actions">
+    <a href="{% url 'cashflow:status_update' status.pk %}" class="btn-primary">Редактировать</a>
+    <a href="{% url 'cashflow:status_delete' status.pk %}" class="btn-secondary">Удалить</a>
+    <a href="{% url 'cashflow:manage' %}" class="btn-secondary">Назад к списку</a>
+</div>
+{% endblock %}
